@@ -1,0 +1,5 @@
+- name: reload pgbouncer
+  shell: docker kill --signal=HUP {{ pgbouncer_container_name }}
+
+- name: restart pgbouncer
+  shell: docker restart {{ pgbouncer_container_name }}

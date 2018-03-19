@@ -1,0 +1,73 @@
+---
+pgbouncer_image: kr3ssh/pgbouncer
+pgbouncer_version: latest
+pgbouncer_container_name: pgbouncer
+pgbouncer_links: []
+pgbouncer_ulimits: []
+pgbouncer_sysctls:
+  net.core.somaxconn: '{{ pgbouncer_max_client_conn }}'
+pgbouncer_published_ports: []
+pgbouncer_config_dir: /opt/docker/services/pgbouncer
+pgbouncer_volumes:
+  - '{{ pgbouncer_config_dir }}/pgbouncer.ini:{{ pgbouncer_container_config_dir }}/pgbouncer.ini'
+  - '{{ pgbouncer_config_dir }}/pgbouncer_hba.conf:{{ pgbouncer_auth_hba_file }}'
+  - '{{ pgbouncer_config_dir }}/auth.txt:{{ pgbouncer_auth_file }}'
+
+pgbouncer_postgresql_host: 127.0.0.1
+pgbouncer_postgresql_port: 5432
+pgbouncer_env:
+  PGBOUNCER_DIR: '{{ pgbouncer_container_config_dir }}'
+
+pgbouncer_hba:
+  - { type: local, database: all, user: '{{ pgbouncer_user }}', address: '', method: 'trust', comment: '' }
+  - { type: local, database: all, user: all, address: '',             method: 'md5', comment: '"local" is for Unix domain socket connections only' }
+  - { type: host,  database: all, user: all, address: '127.0.0.1/32', method: 'md5', comment: 'IPv4 local connections:' }
+  - { type: host,  database: all, user: all, address: '::1/128',      method: 'md5', comment: 'IPv6 local connections:' }
+  - { type: host,  database: all, user: all, address: '0.0.0.0/0',    method: 'md5', comment: 'Any IPv4 connections:' }
+
+pgbouncer_databases:
+  - name: '*'
+    host: '{{ pgbouncer_postgresql_host }}'
+    port: '{{ pgbouncer_postgresql_port }}'
+    auth_user: '{{ pgbouncer_auth_user }}'
+
+pgbouncer_users: []
+
+pgbouncer_container_config_dir: /etc/pgbouncer
+pgbouncer_user: postgres
+pgbouncer_group: postgres
+
+pgbouncer_log_dir: /var/log/pgbouncer
+pgbouncer_logfile: '{{ pgbouncer_log_dir }}/pgbouncer.log'
+
+pgbouncer_auth_type: hba
+pgbouncer_auth_hba_file: '{{ pgbouncer_container_config_dir }}/pgbouncer_hba.conf'
+pgbouncer_auth_file: '{{ pgbouncer_container_config_dir }}/auth.txt'
+
+pgbouncer_auth_user: postgres
+pgbouncer_auth_password: ''
+
+pgbouncer_admin_users:
+  - postgres
+
+pgbouncer_stats_users:
+  - postgres
+
+pgbouncer_pool_mode: session
+pgbouncer_server_reset_query: DISCARD ALL
+pgbouncer_server_reset_query_always: 0
+pgbouncer_ignore_startup_parameters: extra_float_digits,application_name
+pgbouncer_server_check_query: select 1
+pgbouncer_server_check_delay: 30
+pgbouncer_max_client_conn: 100
+pgbouncer_default_pool_size: 20
+pgbouncer_min_pool_size: 0
+pgbouncer_reserve_pool_size: 0
+pgbouncer_reserve_pool_timeout: 5
+pgbouncer_max_db_connections: -1
+pgbouncer_max_user_connections: -1
+pgbouncer_log_connections: 1
+pgbouncer_log_disconnections: 1
+pgbouncer_log_pooler_errors: 1
+pgbouncer_verbose: 0
+pgbouncer_stats_period: 60
