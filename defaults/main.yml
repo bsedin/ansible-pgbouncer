@@ -3,6 +3,7 @@ pgbouncer_image: kr3ssh/pgbouncer
 pgbouncer_version: latest
 pgbouncer_container_name: pgbouncer
 pgbouncer_links: []
+pgbouncer_networks: []
 pgbouncer_ulimits: []
 pgbouncer_sysctls:
   net.core.somaxconn: '{{ pgbouncer_max_client_conn }}'

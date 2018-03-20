@@ -3,8 +3,6 @@
   file:
     dest: '{{ item }}'
     state: directory
-    # owner: '{{ pgbouncer_user }}'
-    # group: '{{ pgbouncer_group }}'
   with_items:
     - '{{ pgbouncer_config_dir }}'
 
@@ -12,9 +10,6 @@
   template:
     src: '{{ item }}.j2'
     dest: '{{ pgbouncer_config_dir }}/{{ item }}'
-    # owner: '{{ pgbouncer_user }}'
-    # group: '{{ pgbouncer_group }}'
-    # mode: 0640
   notify:
     - reload pgbouncer
   with_items:
@@ -33,6 +28,7 @@
     user: '{{ pgbouncer_user }}'
     published_ports: '{{ pgbouncer_published_ports }}'
     links: '{{ pgbouncer_links }}'
+    networks: '{{ pgbouncer_networks }}'
     ulimits: '{{ pgbouncer_ulimits }}'
     sysctls: '{{ pgbouncer_sysctls }}'
     volumes: '{{ pgbouncer_volumes }}'
