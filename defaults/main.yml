@@ -1,22 +1,23 @@
 ---
-pgbouncer_image: kr3ssh/pgbouncer
+pgbouncer_image: kr3ssh/pgbouncer:{{ pgbouncer_version }}
 pgbouncer_version: latest
 pgbouncer_container_name: pgbouncer
-pgbouncer_links: []
-pgbouncer_networks: []
-pgbouncer_ulimits: []
-pgbouncer_sysctls:
+pgbouncer_container_networks: []
+pgbouncer_container_ulimits: []
+pgbouncer_container_sysctls:
   net.core.somaxconn: '{{ pgbouncer_max_client_conn }}'
-pgbouncer_published_ports: []
+pgbouncer_container_published_ports: []
 pgbouncer_config_dir: /opt/docker/services/pgbouncer
-pgbouncer_volumes:
+pgbouncer_container_volumes:
   - '{{ pgbouncer_config_dir }}/pgbouncer.ini:{{ pgbouncer_container_config_dir }}/pgbouncer.ini'
   - '{{ pgbouncer_config_dir }}/pgbouncer_hba.conf:{{ pgbouncer_auth_hba_file }}'
   - '{{ pgbouncer_config_dir }}/auth.txt:{{ pgbouncer_auth_file }}'
+pgbouncer_container_log_driver: ''
+pgbouncer_container_log_opt: ''
 
 pgbouncer_postgresql_host: 127.0.0.1
 pgbouncer_postgresql_port: 5432
-pgbouncer_env:
+pgbouncer_container_env:
   PGBOUNCER_DIR: '{{ pgbouncer_container_config_dir }}'
 
 pgbouncer_hba:

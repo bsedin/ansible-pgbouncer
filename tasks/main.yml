@@ -1,1 +1,36 @@
-- include: pgbouncer.yml
+---
+- name: ensure pgbouncer config dir
+  file:
+    dest: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ pgbouncer_config_dir }}'
+
+- name: create pgbouncer configs
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ pgbouncer_config_dir }}/{{ item }}'
+  notify:
+    - reload pgbouncer
+  with_items:
+    - pgbouncer.ini
+    - pgbouncer_hba.conf
+    - auth.txt
+
+- name: run pgbouncer container
+  docker_container:
+    state: started
+    restart: yes
+    recreate: yes
+    name: '{{ pgbouncer_container_name }}'
+    image: '{{ pgbouncer_image }}'
+    restart_policy: always
+    user: '{{ pgbouncer_user }}'
+    published_ports: '{{ pgbouncer_container_published_ports }}'
+    networks: '{{ pgbouncer_container_networks }}'
+    ulimits: '{{ pgbouncer_container_ulimits }}'
+    sysctls: '{{ pgbouncer_container_sysctls }}'
+    volumes: '{{ pgbouncer_container_volumes }}'
+    env: '{{ pgbouncer_container_env }}'
+    log_driver: '{{ pgbouncer_container_log_driver }}'
+    log_opt: '{{ pgbouncer_container_log_opt }}'
