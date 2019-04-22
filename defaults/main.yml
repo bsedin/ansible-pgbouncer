@@ -13,7 +13,7 @@ pgbouncer_container_volumes:
   - '{{ pgbouncer_config_dir }}/pgbouncer_hba.conf:{{ pgbouncer_auth_hba_file }}'
   - '{{ pgbouncer_config_dir }}/auth.txt:{{ pgbouncer_auth_file }}'
 pgbouncer_container_log_driver: ''
-pgbouncer_container_log_opt: ''
+pgbouncer_container_log_opt: {}
 
 pgbouncer_postgresql_host: 127.0.0.1
 pgbouncer_postgresql_port: 5432
