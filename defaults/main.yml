@@ -5,33 +5,33 @@ pgbouncer_container_name: pgbouncer
 pgbouncer_container_networks: []
 pgbouncer_container_ulimits: []
 pgbouncer_container_sysctls:
-  net.core.somaxconn: '{{ pgbouncer_max_client_conn }}'
+  net.core.somaxconn: "{{ pgbouncer_max_client_conn }}"
 pgbouncer_container_published_ports: []
 pgbouncer_config_dir: /opt/docker/services/pgbouncer
 pgbouncer_container_volumes:
-  - '{{ pgbouncer_config_dir }}/pgbouncer.ini:{{ pgbouncer_container_config_dir }}/pgbouncer.ini'
-  - '{{ pgbouncer_config_dir }}/pgbouncer_hba.conf:{{ pgbouncer_auth_hba_file }}'
-  - '{{ pgbouncer_config_dir }}/auth.txt:{{ pgbouncer_auth_file }}'
-pgbouncer_container_log_driver: ''
+  - "{{ pgbouncer_config_dir }}/pgbouncer.ini:{{ pgbouncer_container_config_dir }}/pgbouncer.ini"
+  - "{{ pgbouncer_config_dir }}/pgbouncer_hba.conf:{{ pgbouncer_auth_hba_file }}"
+  - "{{ pgbouncer_config_dir }}/auth.txt:{{ pgbouncer_auth_file }}"
+pgbouncer_container_log_driver: ""
 pgbouncer_container_log_opt: {}
 
 pgbouncer_postgresql_host: 127.0.0.1
 pgbouncer_postgresql_port: 5432
 pgbouncer_container_env:
-  PGBOUNCER_DIR: '{{ pgbouncer_container_config_dir }}'
+  PGBOUNCER_DIR: "{{ pgbouncer_container_config_dir }}"
 
 pgbouncer_hba:
-  - { type: local, database: all, user: '{{ pgbouncer_user }}', address: '', method: 'trust', comment: '' }
-  - { type: local, database: all, user: all, address: '',             method: 'md5', comment: '"local" is for Unix domain socket connections only' }
-  - { type: host,  database: all, user: all, address: '127.0.0.1/32', method: 'md5', comment: 'IPv4 local connections:' }
-  - { type: host,  database: all, user: all, address: '::1/128',      method: 'md5', comment: 'IPv6 local connections:' }
-  - { type: host,  database: all, user: all, address: '0.0.0.0/0',    method: 'md5', comment: 'Any IPv4 connections:' }
+  - { type: local, database: all, user: "{{ pgbouncer_user }}", address: "", method: "trust", comment: "" }
+  - { type: local, database: all, user: all, address: "", method: "md5", comment: '"local" is for Unix domain socket connections only' }
+  - { type: host, database: all, user: all, address: "127.0.0.1/32", method: "md5", comment: "IPv4 local connections:" }
+  - { type: host, database: all, user: all, address: "::1/128", method: "md5", comment: "IPv6 local connections:" }
+  - { type: host, database: all, user: all, address: "0.0.0.0/0", method: "md5", comment: "Any IPv4 connections:" }
 
 pgbouncer_databases:
-  - name: '*'
-    host: '{{ pgbouncer_postgresql_host }}'
-    port: '{{ pgbouncer_postgresql_port }}'
-    auth_user: '{{ pgbouncer_auth_user }}'
+  - name: "*"
+    host: "{{ pgbouncer_postgresql_host }}"
+    port: "{{ pgbouncer_postgresql_port }}"
+    auth_user: "{{ pgbouncer_auth_user }}"
 
 pgbouncer_users: []
 
@@ -40,14 +40,14 @@ pgbouncer_user: postgres
 pgbouncer_group: postgres
 
 pgbouncer_log_dir: /var/log/pgbouncer
-pgbouncer_logfile: '{{ pgbouncer_log_dir }}/pgbouncer.log'
+pgbouncer_logfile: "{{ pgbouncer_log_dir }}/pgbouncer.log"
 
 pgbouncer_auth_type: hba
-pgbouncer_auth_hba_file: '{{ pgbouncer_container_config_dir }}/pgbouncer_hba.conf'
-pgbouncer_auth_file: '{{ pgbouncer_container_config_dir }}/auth.txt'
+pgbouncer_auth_hba_file: "{{ pgbouncer_container_config_dir }}/pgbouncer_hba.conf"
+pgbouncer_auth_file: "{{ pgbouncer_container_config_dir }}/auth.txt"
 
 pgbouncer_auth_user: postgres
-pgbouncer_auth_password: ''
+pgbouncer_auth_password: ""
 
 pgbouncer_admin_users:
   - postgres
